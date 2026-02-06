@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AquaVibe Drinks</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+<style>
+body{
+  margin:0;
+  font-family:'Segoe UI',sans-serif;
+  background:linear-gradient(135deg,#00c6ff,#0072ff);
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.card{
+  background:white;
+  width:90%;
+  max-width:380px;
+  padding:30px;
+  border-radius:20px;
+  text-align:center;
+  animation:fade 1.2s ease;
+}
+
+@keyframes fade{
+  from{opacity:0; transform:translateY(30px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+.logo{
+  font-size:28px;
+  font-weight:bold;
+  color:#0072ff;
+}
+
+input{
+  width:100%;
+  padding:12px;
+  margin:10px 0;
+  border:none;
+  border-radius:10px;
+  background:#f1f1f1;
+}
+
+button{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:25px;
+  font-size:16px;
+  cursor:pointer;
+  margin-top:10px;
+}
+
+.email-btn{
+  background:#0072ff;
+  color:white;
+}
+
+.google-btn{
+  background:white;
+  border:2px solid #ddd;
+}
+
+.small{
+  font-size:13px;
+  color:#555;
+  margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <div class="logo">🥤 AquaVibe</div>
+  <p>Refreshing Life</p>
+
+  <input type="email" id="email" placeholder="Email">
+  <input type="password" id="password" placeholder="Password">
+
+  <button class="email-btn" onclick="loginEmail()">Login with Email</button>
+  <button class="google-btn" onclick="loginGoogle()">Login with Google</button>
+
+  <p class="small" id="msg"></p>
+</div>
+
+<script>
+/* 🔥 Firebase Config (badilisha zako) */
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT",
+  appId: "YOUR_APP_ID"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+
+/* Email Login */
+function loginEmail(){
+  const email = document.getElementById("email").value;
+  const pass = document.getElementById("password").value;
+
+  auth.signInWithEmailAndPassword(email, pass)
+  .then(()=>{
+    window.location.href="home.html";
+  })
+  .catch(e=>{
+    document.getElementById("msg").innerText = e.message;
+  });
+}
+
+/* Google Login */
+function loginGoogle(){
+  const provider = new firebase.auth.GoogleAuthProvider();
+  auth.signInWithPopup(provider)
+  .then(()=>{
+    window.location.href="home.html";
+  })
+  .catch(e=>{
+    document.getElementById("msg").innerText = e.message;
+  });
+}
+</script>
+
+</body>
+</html>
